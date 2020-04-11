@@ -37,8 +37,9 @@ jobs:
           sudo chown -R $USER /usr/local/lib/node_modules
           sudo chown -R $USER /usr/local/bin/
           echo n | npm install -g @cloudbase/cli
+          curl http://www.cip.cc
           echo n | tcb login --apiKeyId $SECRET_ID --apiKey $SECRET_KEY -debug
+          echo login
           
-          curl https://ip.cn
 
           cloudbase hosting:deploy build -e  $ENV_ID
