@@ -1,46 +1,19 @@
-# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
-
-name: Build CI
-
-on:
-  push:
-    branches: [master]
+on: [push]
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [12.x]
-
+    name: Tencent Cloudbase Github Action Example
     steps:
       - name: Checkout
-        uses: actions/checkout@master
-
-#       - name: Build and Deploy
-#         uses: JamesIves/github-pages-deploy-action@master
-#         env:
-#           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-#           BRANCH: gh-pages
-#           FOLDER: build
-#           BUILD_SCRIPT: npm install && npm run build
-
-      - name: Deploy To CDN
-        env:
-          SECRET_ID: ${{ secrets.SECRET_ID }}
-          SECRET_KEY: ${{ secrets.SECRET_KEY }}
-          ENV_ID:  ${{ secrets.ENV_ID }}
-        run: |
-          sudo -i
-          sudo chown -R $USER /usr/local/lib/node_modules
-          sudo chown -R $USER /usr/local/bin/
-          echo n | npm install -g @cloudbase/cli
-          curl http://www.cip.cc
-          ping cloud.tentent.com
-          echo n | tcb login --apiKeyId $SECRET_ID --apiKey $SECRET_KEY -debug
-          echo login
-          
-
-          cloudbase hosting:deploy build -e  $ENV_ID
+        uses: actions/checkout@v2
+      - name: Deploy static to Tencent CloudBase
+        id: deployStatic
+        uses: TencentCloudBase/cloudbase-action
+        with:
+          secretId: ${{ secrets.SECRET_ID }}
+          secretKey: ${{ secrets.SECRET_KEY }}
+          envId: ${{ secrets.ENV_ID }}
+          staticSrcPath: build
+      - name: Get the deploy result
+        run: echo "Deploy to cloudbase result: ${{ steps.deployStatic.outputs.deployResult }}"
