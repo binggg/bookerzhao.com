@@ -16,4 +16,4 @@ jobs:
           envId: ${{ secrets.ENV_ID }}
           staticSrcPath: build
       - name: Get the deploy result
-        run: echo "Deploy to cloudbase result: ${{ steps.deployStatic.outputs.deployResult }}"
+        run: echo "Deploy to cloudbase result ${{ steps.deployStatic.outputs.deployResult }}"
