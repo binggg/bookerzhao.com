@@ -36,7 +36,7 @@ jobs:
           sudo -i
           sudo chown -R $USER /usr/local/lib/node_modules
           sudo chown -R $USER /usr/local/bin/
-          echo N | npm i -g cloudbase-cli
-          echo N | tcb login --apiKeyId $SECRET_ID --apiKey $SECRET_KEY -debug
+          echo n | npm i -g cloudbase-cli
+          echo n | tcb login --apiKeyId $SECRET_ID --apiKey $SECRET_KEY -debug
 
           cloudbase hosting:deploy build -e  $ENV_ID
